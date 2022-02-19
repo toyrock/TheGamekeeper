@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/toyrock/thegamekeeper.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bianca & Toygun",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/toyrock/thegamekeeper/issues"
@@ -21,9 +21,11 @@
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "dompurify": "^2.3.6",
+    "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-ejs-layouts": "^2.5.1",
+    "express-layout": "^0.1.0",
     "express-session": "^1.17.2",
     "hbs": "^4.2.0",
     "jsdom": "^19.0.0",
