@@ -5,6 +5,9 @@ const session = require("express-session");
 const store = require("connect-mongo");
 const dotenv = require("dotenv");
 
+const userRouter = require('./routes/user.routes')
+
+
 // environment variables
 dotenv.config();
 
@@ -43,8 +46,11 @@ app.use((req, res, next) => {
   });
   
   // root route
-  app.get("/", (req, res) => {
-    res.render("home");
+  app.get('/', (req, res) => {
+    res.render('index');
   });
+
+  // user routes
+  app.use('/users', userRouter)
   
   app.listen(process.env.PORT);
