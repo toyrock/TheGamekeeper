@@ -1,64 +1,63 @@
 const express = require('express')
-
+const bcrypt = require('bcrypt')
 const User = require('../models/user.model')
+const Game = require("../models/game.model");
+const { isLoggedIn } = require("../middlewares/guard");
+
 const router = express.Router()
 
-router.get('/signin', async (req, res) => {
-    res.render('signin')
+router.get("/signup", (req, res) => {
+    res.render("user/signup")
 })
 
-router.post('/signin', async (req, res) => {
-    /* await User.create({
-        email:req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-    })  
-}) */
-const user = new User()
-  const hash = await bcrypt.hash(req.body.password, 6)
-  user.email = req.body.email
-  user.password = hash
+router.post("/signup", async (req, res) => {
+  const user = new User();
+  user.email = req.body.email;
   try {
-    await user.save()
-    res.redirect('/')
+    user.password = await bcrypt.hash(req.body.password, 10);
+    await user.save();
+    res.redirect("/game");
   } catch (error) {
-    res.redirect('/users/signin')
+    res.redirect("/user/signup");
   }
 })
 
 // for m for logging in the user
-router.get('/login', (req, res) => {
-    res.render('login', { message: '' })
-  })
+router.get("/login", (req, res) => {
+    res.render("user/login");
+  });
 
-// handling the authentication of the user
-router.post('/login', async (req, res) => {
-    const user = await User.findOne({ email: req.body.email })
-    if (user) {
-      const isPwCorrect = await bcrypt.compare(req.body.password, user.password)
-      if (isPwCorrect) {
-        req.session.currentUser = user
-        res.redirect('/users/profile')
-      } else {
-        res.redirect('/users/login')
-      }
+// handles the authentication of a user
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    const isPwCorrect = await bcrypt.compare(req.body.password, user.password);
+    if (isPwCorrect) {
+      req.session.currentUser = user;
+      res.redirect("/game");
     } else {
-      res.redirect('/users/login')
+      res.redirect("/user/login");
     }
-  })
+  } catch (error) {
+    res.redirect("/user/login");
+  }
+});
 
 // route for the user profile
-router.get('/profile', (req, res) => {
-    const user = req.session.currentUser
-    res.render('profile', { user })
-  })
+router.get("/profile", isLoggedIn, async(req, res) => {
+  console.log(req.isLogged);
+  if (req.isLogged === true) {
+    const games = await Game.find({ author: req.session.currentUser._id });
+    res.render("user/profile", { games });
+  } else {
+    res.redirect("/user/login");
+  }
+});
   
-  // route for handling the logout
-  router.get('/logout', (req, res) => {
-    req.session.destroy()
-    res.redirect('/users/login')
-  })
+// route for handling the logout
+router.get('/logout', (req, res) => {
+  req.session.destroy()
+  res.redirect('/')
+})
 
-
-
-module.exports = router
+module.exports = router;

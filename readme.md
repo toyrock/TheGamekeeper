@@ -17,3 +17,7 @@ Nice portal for Board Game lovers.
 <br>
 
 ## API routes (back-end)
+
+
+upload 
+-npm install express-fileupload
