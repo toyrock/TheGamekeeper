@@ -7,6 +7,7 @@ const store = require("connect-mongo");
 const dotenv = require("dotenv");
 //mongoose.connect("mongodb://localhost/thegamekeeper");
 const app = express();
+
 dotenv.config();
 
 mongoose.connect (process.env.MONGODB_URL);
