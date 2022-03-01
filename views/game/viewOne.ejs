@@ -1,0 +1,18 @@
+<h2><%= game.title %></h2>
+<p>author: <%/*= game.author.email */%></p>
+<img src="/uploads/<%= game.image %>" />
+<br />
+<h3>Add Your Review</h3>
+<% if (isLoggedIn) { %>
+<form action="/review/create/<%= game.id %>" method="post">
+  <input type="text" name="content" />
+  <button type="submit">submit</button>
+</form>
+<% } else { %>
+  Please <a href="/user/login">login</a> to write a review
+<% } %>
+<ul>
+ reviews <%/* game.reviews.forEach(review => { %>
+  <li><%= review.content %> by <%= review.author.email %></li>
+  <% }) */%>
+</ul>

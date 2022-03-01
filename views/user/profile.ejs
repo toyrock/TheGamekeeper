@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<body class="container">
+<h2>profile</h2>
+<div>email: <%= currentUser.email %></div>
+
+<ul>
+    <% games.forEach((game)=> { %>
+        <li>
+            <%= game.title %>
+                <a href="/game/<%= game.id %>">read</a>
+        </li>
+        <% }) %>
+</ul>

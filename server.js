@@ -5,13 +5,15 @@ const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const store = require("connect-mongo");
 const dotenv = require("dotenv");
-mongoose.connect("mongodb://localhost/thegamekeeper");
+//mongoose.connect("mongodb://localhost/thegamekeeper");
 const app = express();
+dotenv.config();
 
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect (process.env.MONGODB_URL);
+
 
 // environment variables
-dotenv.config();
+
 // template engine setup
 app.set("view engine", "ejs");
 // ejs layout setup
@@ -37,7 +39,7 @@ app.use(
       maxAge: 1200000,
     },
     store: store.create({
-      mongoUrl: "mongodb://localhost/thegamekeeper",
+      mongoUrl:process.env.MONGODB_URL
     }),
   })
 );
