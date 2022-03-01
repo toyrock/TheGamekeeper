@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 mongoose.connect("mongodb://localhost/thegamekeeper");
 const app = express();
 
-//mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(process.env.MONGODB_URL);
 
 // environment variables
 dotenv.config();
@@ -17,9 +17,11 @@ app.set("view engine", "ejs");
 // ejs layout setup
 app.use(expressLayouts);
 // file uploads
-app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 }
-  }));
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
 // middleware to extract the body from the request
 app.use(express.urlencoded({ extended: false }));
 // hooking up the public folder
@@ -42,22 +44,22 @@ app.use(
 
 // middle ware for making the user available to all templates
 app.use((req, res, next) => {
-    res.locals.currentUser = req.session.currentUser;
-    next();
+  res.locals.currentUser = req.session.currentUser;
+  next();
 });
-  
+
 // root route
-app.get('/', (req, res) => {
-  res.render('index');
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
 // user routes
 const userRouter = require("./routes/user.routes");
-  app.use("/user", userRouter);
-  
+app.use("/user", userRouter);
+
 //hook the game routes
-const gameRouter = require('./routes/game.routes')
-app.use('/game', gameRouter)
+const gameRouter = require("./routes/game.routes");
+app.use("/game", gameRouter);
 
 //hook the review routes
 const reviewRouter = require("./routes/review.routes");
