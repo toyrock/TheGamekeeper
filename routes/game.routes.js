@@ -41,7 +41,6 @@ router.post("/create", isLoggedIn, async (req, res) => {
     });
     const games = await Game.find();
     res.redirect("/game");
-    //res.render("game/viewAll", { games });
   }
 });
 
