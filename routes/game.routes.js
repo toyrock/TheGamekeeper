@@ -1,22 +1,23 @@
-const express = require ('express')
-const Game = require('../models/game.model')
+const express = require("express");
+const Game = require("../models/game.model");
 const { isLoggedIn } = require("../middlewares/guard");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/create',isLoggedIn, (req, res) => {
-    res.render('game/create')
-})
+router.get("/create", isLoggedIn, (req, res) => {
+  res.render("game/create");
+});
 
 router.post("/search/:keyword", isLoggedIn, async (req, res) => {
-  const games = await Game.find({title: req.params.keyword});
+  const games = await Game.find({ title: req.params.keyword });
   res.send({
     status: true,
     data: games,
   });
-})
+});
 
 router.post("/create", isLoggedIn, async (req, res) => {
+  console.log("CREATE GAME", req.body.image);
   if (!req.files) {
     res.send({
       status: false,
@@ -31,6 +32,7 @@ router.post("/create", isLoggedIn, async (req, res) => {
     console.log(uploadedImage.mimetype);
     console.log(uploadedImage.name);
 
+    console.log("iD", req.session.currentUser);
     await Game.create({
       title: req.body.title,
       description: req.body.description,
@@ -38,26 +40,28 @@ router.post("/create", isLoggedIn, async (req, res) => {
       author: req.session.currentUser._id,
     });
     const games = await Game.find();
-    res.render("game/viewAll", { games });
+    res.redirect("/game");
+    //res.render("game/viewAll", { games });
   }
 });
 
 // shows all posts
 router.get("/", async (req, res) => {
   const games = await Game.find();
+  console.log("GAMES", games);
   res.render("game/viewAll", { games });
 });
 
 router.get("/:id", isLoggedIn, async (req, res) => {
   const game = await Game.findById(req.params.id);
-    //.populate("reviews")
-    //.populate("author")
-    //.populate({
-    //  path: "reviews",
-    //  populate: "author",
-    //});
+  //.populate("reviews")
+  //.populate("author")
+  //.populate({
+  //  path: "reviews",
+  //  populate: "author",
+  //});
   console.log(game);
   res.render("game/viewOne", { game, isLoggedIn: req.isLogged });
 });
 
-module.exports = router
+module.exports = router;
