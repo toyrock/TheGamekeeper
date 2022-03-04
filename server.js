@@ -6,12 +6,14 @@ const fileUpload = require("express-fileupload");
 const store = require("connect-mongo");
 const dotenv = require("dotenv");
 //mongoose.connect("mongodb://localhost/thegamekeeper");
+
+const Game = require("./models/game.model");
+
 const app = express();
 
 dotenv.config();
 
-mongoose.connect (process.env.MONGODB_URL);
-
+mongoose.connect(process.env.MONGODB_URL);
 
 // environment variables
 
@@ -40,7 +42,7 @@ app.use(
       maxAge: 1200000,
     },
     store: store.create({
-      mongoUrl:process.env.MONGODB_URL
+      mongoUrl: process.env.MONGODB_URL,
     }),
   })
 );
@@ -52,8 +54,9 @@ app.use((req, res, next) => {
 });
 
 // root route
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", async (req, res) => {
+  const games = await Game.find();
+  res.render("index", { games: games.slice(0, 3) });
 });
 
 // user routes

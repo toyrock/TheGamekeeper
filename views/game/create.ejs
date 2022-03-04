@@ -1,48 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<body class="container">
-<main>
-  <div class="jumbotron">
-    <h1>BOARD GAMES</h1>
-    <p>Please Submit your game!</p>
-  </div>
+  <body class="container">
+    <main>
+      <div class="jumbotron">
+        <h1>BOARD GAMES</h1>
+        <p>Please Submit your game!</p>
+      </div>
 
-  <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
+      <script
+        src="https://upload-widget.cloudinary.com/global/all.js"
+        type="text/javascript"
+      ></script>
 
+      <form action="/game/create" method="post" enctype="multipart/form-data">
+        <input
+          name="title"
+          type="text"
+          placeholder="game title"
+          required="required"
+          maxlengh="255"
+        />
+        <br />
+        <textarea
+          name="description"
+          placeholder="description"
+          required="required"
+        ></textarea>
+        <br />
+        <button type="button" id="upload_widget" class="btn btn-primary">
+          Select Image
+        </button>
+        <input
+          type="hidden"
+          name="image"
+          id="input-image"
+          value=""
+          required="required"
+        />
+        <br />
 
-  <form action="/game/create" method="post" enctype="multipart/form-data">
-      <input name="title" type="text" placeholder="game title" required="required" maxlengh="255" />
-      <br />
-      <textarea name="description" placeholder="description" required="required"></textarea>
-      <br />
-      <button type="button" id="upload_widget">Select Image</button>
-      <input type="hidden" name="image" id="input-image" value="" required="required" />
-      <br />
-     
-      <br />
-      <button type="submit">submit</button>
-  </form>
-</main>
+        <br />
+        <button type="submit">submit</button>
+      </form>
+    </main>
 
-<script defer type="text/javascript">
-  var myWidget = cloudinary.createUploadWidget({
-    cloudName: 'dxkvhqqt8',
-    sources: ['local'],
-    cropping: true,
-    croppingAspectRatio: 1,
-    uploadPreset: 'gamegame'
-  }, (error, result) => {
-    if (result.event === "success") {
-      console.log(result.info.secure_url);
-      document.getElementById("input-image").value = result.info.secure_url;
-      myWidget.close();
-    }
-  }
-  )
+    <script defer type="text/javascript">
+      var myWidget = cloudinary.createUploadWidget(
+        {
+          cloudName: "dxkvhqqt8",
+          sources: ["local"],
+          cropping: true,
+          croppingAspectRatio: 1,
+          uploadPreset: "gamegame",
+        },
+        (error, result) => {
+          if (result.event === "success") {
+            console.log(result.info.secure_url);
+            document.getElementById("input-image").value =
+              result.info.secure_url;
+            myWidget.close();
+          }
+        }
+      );
 
-  document.getElementById("upload_widget").addEventListener("click", function () {
-    myWidget.open();
-  }, false);
-</script>
-</body>
+      document.getElementById("upload_widget").addEventListener(
+        "click",
+        function () {
+          myWidget.open();
+        },
+        false
+      );
+    </script>
+  </body>
 </html>

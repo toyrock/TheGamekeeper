@@ -3,4 +3,18 @@
     <h1>Welcome to The Game Keeper</h1>
     <p>Hey Board Game Freak! :P</p>
   </div>
+  <div class="row">
+    <% games.forEach((game)=> { %>
+    <div class="col-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img src="<%= game.image %>" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title"><%= game.title %></h5>
+          <p class="card-text"><%= game.description %></p>
+          <a href="/game/<%= game.id %>" class="btn btn-primary">View Game</a>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
 </main>
