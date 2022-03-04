@@ -1,38 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../views/head.ejs'); %>  
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        position: relative;
-        width: 100vw;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .info {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 20px;
-        border: 1px solid gray;
-        background-color: aliceblue;
-      }
-      </style>
-</head>
-<body class="container">
-  <header>
-    <%- include('../views/header.ejs'); %>
-  </header>
-  <%- body %>
-</body>
+  <head>
+    <%- include('../views/head.ejs'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../views/header.ejs'); %></header>
+    <%- body %>
+    <footer><%- include('../views/footer.ejs'); %></footer>
+  </body>
 </html>
