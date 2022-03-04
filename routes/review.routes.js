@@ -13,12 +13,12 @@ router.post("/create/:id", async (req, res) => {
   // 3- we need to create the comment
   const review = new Review();
   review.content = req.body.content;
-  review.author = user._id;
+  review.rating = req.body.rating;
+  review.author = req.session.currentUser._id;
+  review.game = game._id;
   await review.save();
-  // 4- append the comment to the post
-  game.reviews.push(review.id);
-  await game.save()
-  // 5- redirect to the same page
+  
+  // 4- redirect to the same page
   res.redirect(`/game/${game.id}`);
 });
 
