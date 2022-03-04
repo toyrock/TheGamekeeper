@@ -47,7 +47,6 @@ router.post("/create", isLoggedIn, async (req, res) => {
 // shows all posts
 router.get("/", async (req, res) => {
   const games = await Game.find();
-  console.log("GAMES", games);
   res.render("game/viewAll", { games });
 });
 
